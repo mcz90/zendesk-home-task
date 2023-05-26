@@ -14,3 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Zendesk Home Task"
 include ':app'
+include ':ui'
+include ':network'
+include ':storage'
+include ':domain'
