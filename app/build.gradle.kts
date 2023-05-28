@@ -52,16 +52,20 @@ android {
 }
 
 dependencies {
-    api(project(":ui"))
-    implementation(project(":domain"))
-    implementation(project(":network"))
-    implementation(project(":storage"))
+    api(project(Modules.domain))
+    implementation(project(Modules.ui))
+    implementation(project(Modules.network))
+    implementation(project(Modules.storage))
+    implementation(project(Modules.ticketsList))
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.10"))
 
 
     kapt(Libraries.hiltCompiler)
     implementation(Libraries.hiltAndroid)
+    implementation(Libraries.viewModelCompose)
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
