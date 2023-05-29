@@ -66,7 +66,6 @@ dependencies {
     implementation(project(Modules.domain))
     implementation(project(Modules.ui))
     implementation(project(Modules.network))
-    implementation(project(Modules.storage))
     implementation(project(Modules.ticketsList))
 
 

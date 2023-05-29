@@ -38,7 +38,6 @@ dependencies {
     implementation(project(Modules.domain))
     implementation(project(Modules.ui))
     implementation(project(Modules.network))
-    implementation(project(Modules.storage))
     kapt(Libraries.Hilt.hiltCompiler)
     implementation(Libraries.Hilt.hiltAndroid)
     implementation(Libraries.Hilt.viewModelCompose)
