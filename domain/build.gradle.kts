@@ -17,7 +17,6 @@ android {
             name = "ZENDESK_TOKEN",
             value = "\"${property("zendesk.token")}\""
         )
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         buildConfig = true
