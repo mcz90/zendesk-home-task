@@ -11,8 +11,8 @@ class TicketsRepository @Inject constructor(
     private val mapper: DataMapper<TicketsResponseDto, TicketResponseModel>,
     private val dataSource: ITicketsDataSource
 ) {
-    suspend fun getTickets(viewId: Long): OutputData<TicketResponseModel> {
-        val data = dataSource.getTickets(viewId)
+    suspend fun getTickets(viewId: Long, page: Int): OutputData<TicketResponseModel> {
+        val data = dataSource.getTickets(viewId, page)
         return mapper.map(data)
     }
 }

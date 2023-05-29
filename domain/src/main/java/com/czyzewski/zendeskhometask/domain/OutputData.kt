@@ -1,7 +1,5 @@
 package com.czyzewski.zendeskhometask.domain
 
-import com.czyzewski.zendeskhometask.network.networkhandling.NetworkResponse
-
 sealed class OutputData<out DomainData> {
     data class Success<DomainData>(val data: DomainData) : OutputData<DomainData>()
     data class Error(val error: Any?) : OutputData<Nothing>()

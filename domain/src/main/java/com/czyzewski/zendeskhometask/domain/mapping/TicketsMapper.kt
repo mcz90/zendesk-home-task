@@ -5,7 +5,9 @@ import com.czyzewski.zendeskhometask.domain.model.TicketResponseModel
 import com.czyzewski.zendeskhometask.network.dto.TicketsResponseDto
 import javax.inject.Inject
 
-class TicketsMapper @Inject constructor() : DataMapper<TicketsResponseDto, TicketResponseModel> {
+class TicketsMapper @Inject constructor(
+    private val extractor: QueryExtractor<Int>
+) : DataMapper<TicketsResponseDto, TicketResponseModel> {
     override fun mapSuccess(responseData: TicketsResponseDto): TicketResponseModel {
         val ticketModels = responseData.tickets.map { ticketDto ->
             TicketModel(
@@ -15,8 +17,8 @@ class TicketsMapper @Inject constructor() : DataMapper<TicketsResponseDto, Ticke
             )
         }
         return TicketResponseModel(
-            nextPage = responseData.nextPage,
-            previousPage = responseData.previousPage,
+            nextPage = extractor.extract(responseData.nextPage, "page"),
+            previousPage = extractor.extract(responseData.previousPage, "page"),
             count = responseData.count,
             tickets = ticketModels
         )

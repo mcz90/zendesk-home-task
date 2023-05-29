@@ -1,6 +1,7 @@
 package com.czyzewski.zendeskhometask.domain.di
 
 import com.czyzewski.zendeskhometask.domain.mapping.DataMapper
+import com.czyzewski.zendeskhometask.domain.mapping.QueryExtractor
 import com.czyzewski.zendeskhometask.domain.mapping.TicketsMapper
 import com.czyzewski.zendeskhometask.domain.model.TicketResponseModel
 import com.czyzewski.zendeskhometask.domain.repository.TicketsRepository
@@ -34,6 +35,12 @@ abstract class DomainModule {
 @InstallIn(SingletonComponent::class)
 internal object Domain {
 
+    @Provides
+    @Singleton
+    fun provideQueryExtractor(
+    ): QueryExtractor<Int> {
+        return QueryExtractor()
+    }
     @Provides
     @Singleton
     fun provideGetTicketsListUseCase(
