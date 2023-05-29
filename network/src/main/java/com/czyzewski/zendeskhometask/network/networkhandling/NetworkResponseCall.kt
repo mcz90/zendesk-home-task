@@ -56,7 +56,7 @@ internal class NetworkResponseCall<ResponseData : Any>(
             if (body != null) {
                 NetworkResponse.Success(body)
             } else {
-                NetworkResponse.UnknownError()
+                NetworkResponse.EmptyBody
             }
         } else {
             NetworkResponse.HttpError(null, errorCode = code)
@@ -71,12 +71,10 @@ internal class NetworkResponseCall<ResponseData : Any>(
             is HttpException -> {
                 NetworkResponse.HttpError(throwable, errorCode = throwable.code())
             }
-
             is UnknownHostException, is SocketException, is SocketTimeoutException, is SSLException -> {
                 val networkAvailable = networkConnectivityManager.isNetworkAvailable()
                 NetworkResponse.InternetError(networkAvailable)
             }
-
             else -> NetworkResponse.UnknownError(throwable)
         }
         return Response.success(result)

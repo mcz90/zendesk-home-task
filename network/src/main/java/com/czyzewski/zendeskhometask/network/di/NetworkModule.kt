@@ -24,7 +24,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+open class NetworkModule {
+    protected open fun baseUrl() = "https://z3nmobiletechtest.zendesk.com"
 
     @Provides
     @Singleton
@@ -45,8 +46,11 @@ object NetworkModule {
         converter: MoshiConverterFactory,
         adapter: NetworkResponseAdapterFactory
     ): Retrofit {
-        return Retrofit.Builder().baseUrl("https://z3nmobiletechtest.zendesk.com")
-            .client(okHttpClient).addCallAdapterFactory(adapter).addConverterFactory(converter)
+        return Retrofit.Builder()
+            .baseUrl(baseUrl())
+            .client(okHttpClient)
+            .addCallAdapterFactory(adapter)
+            .addConverterFactory(converter)
             .build()
     }
 

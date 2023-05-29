@@ -35,7 +35,6 @@ dependencies {
     implementation(Libraries.okHttp)
     implementation(Libraries.okHttpLoggingInterceptor)
     implementation(Libraries.networkingOkHttp)
-    implementation(Libraries.networkingOkHttpLoggingInterceptor)
     implementation(Libraries.moshi)
     implementation(Libraries.moshiKotlin)
     implementation(Libraries.retrofit)
