@@ -53,7 +53,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Tickets data matches expected result on successful api response`() = runTest {
+    fun tickets_data_matches_expected_result_on_successful_api_response() = runTest {
         coEvery {
             mockApi.getTickets(
                 0L, 1
@@ -71,7 +71,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Error sets to unknown when network responds with unknown error`() = runTest {
+    fun error_sets_to_unknown_when_network_responds_with_unknown_error() = runTest {
         coEvery {
             mockApi.getTickets(
                 0L, 1
@@ -85,7 +85,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Error sets to no internet error when network responds with internet error`() = runTest {
+    fun error_sets_to_no_internet_error_when_network_responds_with_internet_error() = runTest {
         coEvery {
             mockApi.getTickets(
                 0L, 1
@@ -99,7 +99,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Error sets to http error when network responds with http error`() = runTest {
+    fun error_sets_to_http_error_when_network_responds_with_http_error() = runTest {
         coEvery {
             mockApi.getTickets(
                 0L, 1
@@ -113,7 +113,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Error sets to empty list when network responds empty ticketslist`() = runTest {
+    fun error_sets_to_empty_list_when_network_responds_empty_ticketslist() = runTest {
         coEvery {
             mockApi.getTickets(
                 0L, 1
@@ -127,7 +127,7 @@ class TicketsListViewModelTest {
     }
 
     @Test
-    fun `Tickets list loads after retry button click`() = runTest {
+    fun tickets_list_loads_after_retry_button_click() = runTest {
         coEvery {
             mockApi.getTickets(0L, 1)
         } coAnswers { NetworkResponse.Success(expectedResult) }

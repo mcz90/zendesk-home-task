@@ -26,7 +26,6 @@ fun TicketsScreen(
             LazyColumn(modifier = Modifier.fillMaxHeight()) {
                 items(viewModel.ticketList.size) { index ->
                     TicketCard(
-                        id = viewModel.ticketList[index].id,
                         subject = viewModel.ticketList[index].subject,
                         description = viewModel.ticketList[index].description,
                     )

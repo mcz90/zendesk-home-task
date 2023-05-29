@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TicketCard(
-    id: Int,
     subject: String,
     description: String
 ) {
@@ -53,7 +52,7 @@ fun TicketCard(
 @Preview
 @Composable
 fun TicketCardPreview() {
-    TicketCard(1, "Subject", "Desc")
+    TicketCard("Subject", "Desc")
 }
 
 
