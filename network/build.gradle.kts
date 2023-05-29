@@ -32,13 +32,13 @@ android {
     }
 }
 dependencies {
-    implementation(Libraries.okHttp)
-    implementation(Libraries.okHttpLoggingInterceptor)
-    implementation(Libraries.networkingOkHttp)
-    implementation(Libraries.moshi)
-    implementation(Libraries.moshiKotlin)
-    implementation(Libraries.retrofit)
-    implementation(Libraries.moshiRetrofitConverter)
-    implementation(Libraries.hiltAndroid)
-    kapt(Libraries.hiltCompiler)
+    implementation(Libraries.Network.okHttp)
+    implementation(Libraries.Network.okHttpLoggingInterceptor)
+    implementation(Libraries.Network.networkingOkHttp)
+    implementation(Libraries.Network.moshi)
+    implementation(Libraries.Network.moshiKotlin)
+    implementation(Libraries.Network.retrofit)
+    implementation(Libraries.Network.moshiRetrofitConverter)
+    implementation(Libraries.Hilt.hiltAndroid)
+    kapt(Libraries.Hilt.hiltCompiler)
 }

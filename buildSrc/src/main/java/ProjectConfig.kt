@@ -1,7 +1,6 @@
 import org.gradle.api.JavaVersion
 
 object ProjectConfig {
-    const val namespace = "com.czyzewski.zendeskhometask"
     const val appId = "com.czyzewski.zendeskhometask"
     const val compileSdk = 33
     const val minSdk = 24

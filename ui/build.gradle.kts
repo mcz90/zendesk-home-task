@@ -31,16 +31,9 @@ android {
 }
 
 dependencies {
-    kapt(Libraries.hiltCompiler)
-    implementation(Libraries.hiltAndroid)
-
-    implementation(platform(Libraries.composeBom))
-    implementation(Libraries.activityCompose)
-    implementation(Libraries.activityComposeUi)
-    implementation(Libraries.activityComposeUiGraphics)
-    implementation(Libraries.activityComposeUiTooling)
-    implementation(Libraries.composeMaterial3)
-    androidTestImplementation(Libraries.composeUiTestJunit4)
-    debugImplementation(Libraries.composeUiTooling)
-    debugImplementation(Libraries.composeUiTestManifest)
+    api(platform(Libraries.Compose.composeBom))
+    api(Libraries.Compose.composeMaterial3)
+    api(Libraries.Compose.composeFoundation)
+    api(Libraries.Compose.composeUi)
+    api(Libraries.Compose.composeUiToolingPreview)
 }

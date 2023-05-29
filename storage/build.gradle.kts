@@ -27,6 +27,4 @@ android {
 }
 
 dependencies {
-    implementation(Libraries.hiltAndroid)
-    kapt(Libraries.hiltCompiler)
 }

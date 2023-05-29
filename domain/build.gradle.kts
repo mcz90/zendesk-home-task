@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation(project(Modules.network))
-    implementation(Libraries.hiltAndroid)
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    kapt(Libraries.hiltCompiler)
+    implementation(Libraries.Hilt.hiltAndroid)
+    kapt(Libraries.Hilt.hiltCompiler)
 }
