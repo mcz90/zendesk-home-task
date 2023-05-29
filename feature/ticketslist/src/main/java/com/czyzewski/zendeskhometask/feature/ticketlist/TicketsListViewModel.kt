@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.czyzewski.zendeskhometask.domain.model.TicketModel
 import com.czyzewski.zendeskhometask.domain.usecase.GetTicketsListUseCase
 import dagger.Module
 import dagger.Provides
@@ -39,8 +38,8 @@ class TicketsListViewModel @Inject constructor(
     @ViewId private val viewId: Long,
     private val useCase: GetTicketsListUseCase
 ) : ViewModel() {
-    private val _ticketListState = mutableStateListOf<TicketModel>()
-    val ticketList: List<TicketModel>
+    private val _ticketListState = mutableStateListOf<TicketUiModel>()
+    val ticketList: List<TicketUiModel>
         get() = _ticketListState
 
     private val _isLoading = mutableStateOf(value = true)
@@ -51,8 +50,18 @@ class TicketsListViewModel @Inject constructor(
     val errorState: ErrorState?
         get() = _errorState.value
 
+    init {
+        getTickets(viewId, 1)
+    }
+
     fun handleIntent(intent: TicketListIntent) = when (intent) {
-        is TicketListIntent.Init -> getTickets(viewId, intent.page)
+        is TicketListIntent.OnDescriptionClicked -> {
+            val index = _ticketListState.indexOfFirst { it.id == intent.id }
+            val clickedTicket = _ticketListState[index]
+            val newTicket = clickedTicket.copy(isExpanded = !clickedTicket.isExpanded)
+            _ticketListState.removeAt(index)
+            _ticketListState.add(index, newTicket)
+        }
         TicketListIntent.OnRetryButtonClicked -> getTickets(viewId, 1)
     }
 
@@ -66,7 +75,15 @@ class TicketsListViewModel @Inject constructor(
                         _errorState.value = ErrorState("Tickets list is empty")
                     } else {
                         _ticketListState.clear()
-                        _ticketListState.addAll(result.ticketsList.tickets)
+                        val uiModels = result.ticketsList.tickets.map {
+                            TicketUiModel(
+                                id = it.id,
+                                subject = it.subject,
+                                description = it.description,
+                                isExpanded = false
+                            )
+                        }
+                        _ticketListState.addAll(uiModels)
                         _errorState.value = null
                     }
                     _isLoading.value = false
@@ -83,6 +100,6 @@ class TicketsListViewModel @Inject constructor(
 }
 
 sealed class TicketListIntent {
-    class Init(val page: Int) : TicketListIntent()
+    class OnDescriptionClicked(val id: Int) : TicketListIntent()
     object OnRetryButtonClicked : TicketListIntent()
 }

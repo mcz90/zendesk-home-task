@@ -23,7 +23,6 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestWatcher
@@ -40,18 +39,6 @@ class TicketsListViewModelTest {
 
     private val mockApi: ZendeskApi = mockk()
 
-    @Before
-    fun setUp() {
-        viewModel = TicketsListViewModel(
-            0,
-            GetTicketsListUseCase(
-                TicketsRepository(
-                    TicketsMapper(QueryExtractor()), TicketsDataSource(mockApi)
-                )
-            )
-        )
-    }
-
     @Test
     fun tickets_data_matches_expected_result_on_successful_api_response() = runTest {
         coEvery {
@@ -59,7 +46,7 @@ class TicketsListViewModelTest {
                 0L, 1
             )
         } coAnswers { NetworkResponse.Success(expectedResult) }
-        viewModel.handleIntent(TicketListIntent.Init(1))
+        initViewModel()
         runCurrent()
         expectedResult.tickets.forEachIndexed { index, expectedTicket ->
             Assert.assertEquals(expectedTicket.id, viewModel.ticketList[index].id)
@@ -77,7 +64,7 @@ class TicketsListViewModelTest {
                 0L, 1
             )
         } coAnswers { NetworkResponse.UnknownError() }
-        viewModel.handleIntent(TicketListIntent.Init(1))
+        initViewModel()
         runCurrent()
         Assert.assertEquals(emptyList<TicketModel>(), viewModel.ticketList)
         Assert.assertEquals("Unknown error occurred", viewModel.errorState!!.message)
@@ -91,7 +78,7 @@ class TicketsListViewModelTest {
                 0L, 1
             )
         } coAnswers { NetworkResponse.InternetError() }
-        viewModel.handleIntent(TicketListIntent.Init(1))
+        initViewModel()
         runCurrent()
         Assert.assertEquals(emptyList<TicketModel>(), viewModel.ticketList)
         Assert.assertEquals("Internet error occurred", viewModel.errorState!!.message)
@@ -105,7 +92,7 @@ class TicketsListViewModelTest {
                 0L, 1
             )
         } coAnswers { NetworkResponse.HttpError(Throwable(), 404) }
-        viewModel.handleIntent(TicketListIntent.Init(1))
+        initViewModel()
         runCurrent()
         Assert.assertEquals(emptyList<TicketModel>(), viewModel.ticketList)
         Assert.assertEquals("Http error 404 occurred", viewModel.errorState!!.message)
@@ -119,7 +106,7 @@ class TicketsListViewModelTest {
                 0L, 1
             )
         } coAnswers { NetworkResponse.Success(expectedResult.copy(tickets = emptyList())) }
-        viewModel.handleIntent(TicketListIntent.Init(1))
+        initViewModel()
         runCurrent()
         Assert.assertEquals(emptyList<TicketModel>(), viewModel.ticketList)
         Assert.assertEquals("Tickets list is empty", viewModel.errorState!!.message)
@@ -131,7 +118,7 @@ class TicketsListViewModelTest {
         coEvery {
             mockApi.getTickets(0L, 1)
         } coAnswers { NetworkResponse.Success(expectedResult) }
-
+        initViewModel()
         viewModel.handleIntent(TicketListIntent.OnRetryButtonClicked)
         runCurrent()
         expectedResult.tickets.forEachIndexed { index, expectedTicket ->
@@ -141,6 +128,17 @@ class TicketsListViewModelTest {
         }
         Assert.assertEquals(null, viewModel.errorState)
         Assert.assertEquals(false, viewModel.isLoading)
+    }
+
+    private fun initViewModel() {
+        viewModel = TicketsListViewModel(
+            0,
+            GetTicketsListUseCase(
+                TicketsRepository(
+                    TicketsMapper(QueryExtractor()), TicketsDataSource(mockApi)
+                )
+            )
+        )
     }
 
     private val expectedResult = TicketsResponseDto(

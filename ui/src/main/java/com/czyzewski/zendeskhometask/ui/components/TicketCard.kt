@@ -13,24 +13,23 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
 @Composable
 fun TicketCard(
+    id: Int,
     subject: String,
-    description: String
+    description: String,
+    isExpanded: Boolean,
+    onDescriptionClick: (Int) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -45,16 +44,9 @@ fun TicketCard(
 
     ) {
         TicketSubject(subject)
-        TicketDescription(description)
+        TicketDescription(id, description, isExpanded, onDescriptionClick)
     }
 }
-
-@Preview
-@Composable
-fun TicketCardPreview() {
-    TicketCard("Subject", "Desc")
-}
-
 
 @Composable
 fun TicketSubject(text: String) {
@@ -67,23 +59,27 @@ fun TicketSubject(text: String) {
 }
 
 @Composable
-fun TicketDescription(text: String) {
+fun TicketDescription(
+    id: Int,
+    text: String,
+    isExpanded: Boolean,
+    onClick: (Int) -> Unit
+) {
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        var showMore by remember { mutableStateOf(false) }
         Column(modifier = Modifier
             .animateContentSize(animationSpec = tween(100))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) { showMore = !showMore }) {
+            ) { onClick(id) }) {
 
             // if showMore is true, the Text will expand
             // Else Text will be restricted to 3 Lines of display
-            if (showMore) {
+            if (isExpanded) {
                 Text(
                     text = text,
                     fontSize = 14.sp,
